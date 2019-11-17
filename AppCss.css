@@ -1,5 +1,8 @@
-ul {
+.FirstList {
       list-style: none;
   }
-center{
+#Title {
+    font-size:30px;
+    text-align: center;
+
 }
