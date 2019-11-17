@@ -1,7 +1,13 @@
 .FirstList {
-      list-style: none;
-  }
+    list-style: none;
+}
+
 #Title {
     font-size: 30px;
+}
+.box{
+    text-align: center;
+}
+.start{
     text-align: center;
 }
