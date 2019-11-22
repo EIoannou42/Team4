@@ -98,7 +98,7 @@ function question(json2) {
         intAnswer.id = "intA";
         let intSubmit = document.createElement("input");
         intSubmit.type = "button";
-        intSubmit.onclick = debug();
+        intSubmit.onclick = debug;
         intSubmit.value = "Submit";
         qDiv.appendChild(intAnswer);
         qDiv.appendChild(intSubmit);
