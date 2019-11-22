@@ -6,14 +6,19 @@
     <script src="app.js"></script>
 </head>
 <body>
-    <h1 id="">Start</h1>
-    <input type="text"  id="username">
-    <input type="button" onclick="save()" value="Save">
-    <input type="button" onclick="selectTHunt()" value="Start">
-    <input type="button" onclick="debug()" value="Debug">
-    <a onclick="debug()">Test</a>
+    <h1 id="">Quiz</h1>
+    <div id="Setup">
+        <input type="text"  id="username">
+        <input type="button" onclick="save()" value="Save">
+        <input type="hidden" onclick="selectTHunt()" value="Start" id="start">
+        <input type="button" onclick="debug()" value="Debug">
+    </div>
+
     <div id="thDiv"></div>
-    <ul id="ch"></ul>
+    <div id="qDiv">
+        <p id="qText"></p>
+    </div>
+
 
     <script>
 

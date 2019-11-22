@@ -15,7 +15,7 @@ var THlength = 0;
 function onlist(jsonObj) {
     let th = jsonObj.treasureHunts;
     THlength = th.length;
-    username = getCookie("username");
+
     let ch = document.getElementById("thDiv");
     for(let i=0; i<th.length; i++) {
         let listCheckB = document.createElement("input");
@@ -34,10 +34,12 @@ function onlist(jsonObj) {
 }
 function selectTHunt() {//The user calls this function when he wants to start the game. This tells us which treasure hunt the user selected.
     //Therefore allowing us to get the correct ID for the specific hunt the user wants to play.
+
     for (let c=0; c<THlength; c++){
         let checkbox = document.getElementById("checkbox"+c);
         if (checkbox.checked === true){
             selectTH=c;
+
         }
     }
     fetch("https://codecyprus.org/th/api/list")
@@ -56,6 +58,9 @@ function save() {
     let usern = document.getElementById("username").value;
     setCookie("username", usern, 30);
     console.log(document.cookie);
+    username = getCookie("username");//We reset
+    let showStart = document.getElementById("start");
+    showStart.type = "button";
     //window.location.reload(true);
 }
 function setCookie(cookieName, cookieValue, expireDays) {
@@ -72,12 +77,32 @@ function debug() {
 function start(json) {
     session = json.session;
     console.log("session is: "+session);
-
+    fetch("https://codecyprus.org/th/api/question?session="+session)
+        .then(response => response.json())
+        .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
 
 }
 
-function question() {
-
+function question(json2) {
+    document.getElementById("thDiv").style.display="none";
+    document.getElementById("Setup").style.display="none";
+    let currentQuestion = json2.questionText;
+    let qType = json2.questionType;
+    console.log("qType: "+qType);//debug
+    let qText = document.getElementById("qText");
+    qText.innerHTML = currentQuestion;
+    let qDiv = document.getElementById("qDiv");
+    if(qType === "INTEGER"){
+        let intAnswer = document.createElement("input");
+        intAnswer.type = "text";
+        intAnswer.id = "intA";
+        let intSubmit = document.createElement("input");
+        intSubmit.type = "button";
+        intSubmit.onclick = debug();
+        intSubmit.value = "Submit";
+        qDiv.appendChild(intAnswer);
+        qDiv.appendChild(intSubmit);
+    }
 }
 function getCookie(cname) {//Code found at W3 Schools that helps us set cookies by just calling the function.
     var name = cname + "=";
@@ -94,4 +119,3 @@ function getCookie(cname) {//Code found at W3 Schools that helps us set cookies 
     }
     return "";
 }
-//list();
