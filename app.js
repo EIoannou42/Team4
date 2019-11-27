@@ -12,6 +12,7 @@ var startlink="https://codecyprus.org/th/api/start?player=";
 var session = "";
 var selectTH = 0;
 var THlength = 0;
+var score= 0;
 function onlist(jsonObj) {
     let th = jsonObj.treasureHunts;
     THlength = th.length;
@@ -34,7 +35,7 @@ function onlist(jsonObj) {
 }
 function selectTHunt() {//The user calls this function when he wants to start the game. This tells us which treasure hunt the user selected.
     //Therefore allowing us to get the correct ID for the specific hunt the user wants to play.
-
+    document.getElementById("start").type = "Hidden";
     for (let c=0; c<THlength; c++){
         let checkbox = document.getElementById("checkbox"+c);
         if (checkbox.checked === true){
@@ -77,33 +78,111 @@ function debug() {
 function start(json) {
     session = json.session;
     console.log("session is: "+session);
+
     fetch("https://codecyprus.org/th/api/question?session="+session)
         .then(response => response.json())
         .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
 
 }
-
+let firstTimeInt = true;
+let firstTimeBT = true;
+let firstTimeBF = true;
 function question(json2) {
     document.getElementById("thDiv").style.display="none";
     document.getElementById("Setup").style.display="none";
+
     let currentQuestion = json2.questionText;
     let qType = json2.questionType;
-    console.log("qType: "+qType);//debug
+    console.log("qType: " + qType);//debug
+
     let qText = document.getElementById("qText");
     qText.innerHTML = currentQuestion;
+    //Initialization Zone
     let qDiv = document.getElementById("qDiv");
-    if(qType === "INTEGER"){
-        let intAnswer = document.createElement("input");
+    let intAnswer = document.getElementById("intA");
+    let intSubmit = document.getElementById("submit");
+    let boolAnswerT = document.getElementById("boolT");
+    let boolAnswerF = document.getElementById("boolF");
+    //Hide everything and then choose which ones to display depending on their question type
+    intAnswer.type= "Hidden";
+    intSubmit.type = "Hidden";
+    boolAnswerT.type = "Hidden";
+    boolAnswerF.type = "Hidden";
+    //Removing the listeners so the actions dont happen more than once
+
+    //Based on question type we display different things
+    if(qType === "INTEGER" || qType === "NUMERIC"){
+        //Display this when we need to input integer or numeric answer
         intAnswer.type = "text";
         intAnswer.id = "intA";
-        let intSubmit = document.createElement("input");
+        //Button that will check if the question is wrong or not.
         intSubmit.type = "button";
-        intSubmit.onclick = debug;
+
+        if(firstTimeInt) {
+            intSubmit.addEventListener('click', function () {
+                intSubmit.type = "Hidden";
+                Answer(intAnswer.value);
+            });
+            firstTimeInt=false;
+        }
         intSubmit.value = "Submit";
-        qDiv.appendChild(intAnswer);
-        qDiv.appendChild(intSubmit);
+
+    }else if(qType === "BOOLEAN"){
+        //Display this when we need to input true or false answers
+        boolAnswerT.type = "button";
+        boolAnswerT.value = "True";
+        if(firstTimeBT) {
+            boolAnswerT.addEventListener('click', function () {
+                boolAnswerT.type = "Hidden";
+                boolAnswerF.type = "Hidden";
+                Answer("True");
+            });
+            firstTimeBT=false;
+        }
+        boolAnswerF.type = "button";
+
+        boolAnswerF.value = "False";
+        if(firstTimeBF) {
+            boolAnswerF.addEventListener('click', function () {
+                boolAnswerT.type = "Hidden";
+                boolAnswerF.type = "Hidden";
+                Answer("False");
+            });
+            firstTimeBF=false;
+        }
+    }else if(qType === "MCQ"){
+
+
     }
+
+
+
 }
+
+
+
+function Answer(arg) {
+
+    fetch("https://codecyprus.org/th/api/answer?session="+session+"&answer="+arg)
+        .then(response => response.json())
+        .then(json => scoreAdj(json));
+
+
+}
+function scoreAdj(json) {
+    let scoreAdjust = json.scoreAdjustment;
+    console.log("Score adjustment is: "+ scoreAdjust);
+    score += scoreAdjust;
+    let scoreDisplay = document.getElementById("score");
+    scoreDisplay.innerText = "Score: "+score;
+    fetch("https://codecyprus.org/th/api/question?session="+session)
+        .then(response => response.json())
+        .then(json2 => question(json2));
+}
+
+
+
+
 function getCookie(cname) {//Code found at W3 Schools that helps us set cookies by just calling the function.
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
