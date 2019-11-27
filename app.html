@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="app.js"></script>
+    <link rel="stylesheet" href="AppCss.css">
 </head>
 <body>
-    <h1 id="">Quiz</h1>
+    <h1>The Treasure Hunt</h1>
     <div id="Setup">
-        <input type="text"  id="username">
-        <input type="button" onclick="save()" value="Save">
+        <input type="text"  id="username" placeholder="Enter your username!">
+        <input type="button" onclick="save()" value="Save" id="savebutton">
+        <input type="button" onclick="debug()" value="Debug" id="debugbutton">
+        <br>
         <input type="hidden" onclick="selectTHunt()" value="Start" id="start">
-        <input type="button" onclick="debug()" value="Debug">
     </div>
 
     <div id="thDiv"></div>
