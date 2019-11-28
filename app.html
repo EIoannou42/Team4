@@ -19,18 +19,35 @@
     <div id="thDiv"></div>
     <div id="qDiv">
         <p id="score"></p>
+        <p id="progress"></p>
+        <input type="hidden" id="skip" onclick="skip()">
         <p id="qText"></p>
-        <input type="hidden" id="intA">
+        <input type="hidden" id="textA">
         <input type="hidden" id="submit">
         <input type="hidden" id="boolT">
         <input type="hidden" id="boolF">
+        <input type="hidden" id="A">
+        <input type="hidden" id="B">
+        <input type="hidden" id="C">
+        <input type="hidden" id="D">
+        <p id="message"></p>
 
+    </div>
+    <div id="leaderboard">
+        <table id="THRanking">
+            <tr>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Completion Time</th>
+            </tr>
+
+        </table>
     </div>
 
 
     <script>
 
-
+        document.getElementById("leaderboard").style.display="none"; //To hide the leaderboard from the start
         list();
 
 

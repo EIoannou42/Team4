@@ -13,6 +13,8 @@ var session = "";
 var selectTH = 0;
 var THlength = 0;
 var score= 0;
+var longitude = 0;
+var latitude = 0;
 function onlist(jsonObj) {
     let th = jsonObj.treasureHunts;
     THlength = th.length;
@@ -54,6 +56,27 @@ function selectTHunt() {//The user calls this function when he wants to start th
         });
 
 }
+getLocation(); //We call it once and then every 32 seconds.
+setInterval(getLocation, 32000);
+function getLocation() {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(sendPosition);
+    }else {
+        console.log("Geolocation is not supported on this browser.");
+    }
+}
+function sendPosition(position) {
+    //The console will print undefined location until the user starts the treasure hunt and gets a session
+    longitude= position.coords.longitude;
+    latitude = position.coords.latitude;
+    fetch("https://codecyprus.org/th/api/location?session="+session+"&latitude="+latitude+"&longitude="+longitude)
+        .then(res => res.json())
+        .then(json => {
+            let message = json.message;
+            console.log(message);
+        })
+
+}
 
 function save() {
     let usern = document.getElementById("username").value;
@@ -87,45 +110,77 @@ function start(json) {
 let firstTimeInt = true;
 let firstTimeBT = true;
 let firstTimeBF = true;
+let firstTimeA = true;
+let firstTimeB = true;
+let firstTimeC = true;
+let firstTimeD = true;
 function question(json2) {
     document.getElementById("thDiv").style.display="none";
     document.getElementById("Setup").style.display="none";
 
     let currentQuestion = json2.questionText;
     let qType = json2.questionType;
+    let canbeSkipped = json2.canBeSkipped;
+    let completedTH = json2.completed;
+    //Progress bar initializes here
+    let totalQuestions = json2.numOfQuestions;
+    let currentIndex = (json2.currentQuestionIndex)+1; //I added 1 so the user sees that he starts from question 1 not question 0.
+    let progress = document.getElementById("progress");
+    progress.innerText = "Question: "+currentIndex+"/"+totalQuestions;
+
+    //Skip button appears if question can be skipped
+    let skipButton = document.getElementById("skip");
+    if(canbeSkipped){
+        skipButton.type = "button";
+        skipButton.value = "Skip";
+    }
+
     console.log("qType: " + qType);//debug
 
+
+    //Question text displayed here
     let qText = document.getElementById("qText");
     qText.innerHTML = currentQuestion;
     //Initialization Zone
-    let qDiv = document.getElementById("qDiv");
-    let intAnswer = document.getElementById("intA");
-    let intSubmit = document.getElementById("submit");
+
+    let textAnswer = document.getElementById("textA");
+    let textSubmit = document.getElementById("submit");
     let boolAnswerT = document.getElementById("boolT");
     let boolAnswerF = document.getElementById("boolF");
+    let MCQ_A = document.getElementById("A");
+    let MCQ_B = document.getElementById("B");
+    let MCQ_C = document.getElementById("C");
+    let MCQ_D = document.getElementById("D");
     //Hide everything and then choose which ones to display depending on their question type
-    intAnswer.type= "Hidden";
-    intSubmit.type = "Hidden";
+    textAnswer.type= "Hidden";
+    textSubmit.type = "Hidden";
     boolAnswerT.type = "Hidden";
     boolAnswerF.type = "Hidden";
-    //Removing the listeners so the actions dont happen more than once
-
+    MCQ_A.type = "Hidden";
+    MCQ_B.type = "Hidden";
+    MCQ_C.type = "Hidden";
+    MCQ_D.type = "Hidden";
+    //Check if the user finished his treasure hunt.
+    if(completedTH){
+        document.getElementById("qDiv").style.display="none";
+        thCompleted();
+    }
     //Based on question type we display different things
-    if(qType === "INTEGER" || qType === "NUMERIC"){
+    if(qType === "INTEGER" || qType === "NUMERIC" || qType === "TEXT"){
         //Display this when we need to input integer or numeric answer
-        intAnswer.type = "text";
-        intAnswer.id = "intA";
+        textAnswer.type = "text";
+
         //Button that will check if the question is wrong or not.
-        intSubmit.type = "button";
+        textSubmit.type = "button";
 
         if(firstTimeInt) {
-            intSubmit.addEventListener('click', function () {
-                intSubmit.type = "Hidden";
-                Answer(intAnswer.value);
+            textSubmit.addEventListener('click', function () {
+                textSubmit.type = "Hidden";
+                Answer(textAnswer.value);
             });
             firstTimeInt=false;
         }
-        intSubmit.value = "Submit";
+        textSubmit.value = "Submit";
 
     }else if(qType === "BOOLEAN"){
         //Display this when we need to input true or false answers
@@ -151,14 +206,91 @@ function question(json2) {
             firstTimeBF=false;
         }
     }else if(qType === "MCQ"){
-
-
+        //Here I set every button with a different listener that gives a different argument for each button.
+        //To make sure no more than one listener is added and actions are repeated I used a boolean to make it happen only once.
+        MCQ_A.type = "button";
+        MCQ_A.value = "A";
+        if(firstTimeA) {
+            MCQ_A.addEventListener('click', function () {
+                MCQ_A.type = "Hidden";
+                MCQ_B.type = "Hidden";
+                MCQ_C.type = "Hidden";
+                MCQ_D.type = "Hidden";
+                Answer("A");
+            });
+            firstTimeA=false;
+        }
+        MCQ_B.type = "button";
+        MCQ_B.value = "B";
+        if(firstTimeB) {
+            MCQ_B.addEventListener('click', function () {
+                MCQ_A.type = "Hidden";
+                MCQ_B.type = "Hidden";
+                MCQ_C.type = "Hidden";
+                MCQ_D.type = "Hidden";
+                Answer("B");
+            });
+            firstTimeB=false;
+        }
+        MCQ_C.type = "button";
+        MCQ_C.value = "C";
+        if(firstTimeC) {
+            MCQ_C.addEventListener('click', function () {
+                MCQ_A.type = "Hidden";
+                MCQ_B.type = "Hidden";
+                MCQ_C.type = "Hidden";
+                MCQ_D.type = "Hidden";
+                Answer("C");
+            });
+            firstTimeC=false;
+        }
+        MCQ_D.type = "button";
+        MCQ_D.value = "D";
+        if(firstTimeD) {
+            MCQ_D.addEventListener('click', function () {
+                MCQ_A.type = "Hidden";
+                MCQ_B.type = "Hidden";
+                MCQ_C.type = "Hidden";
+                MCQ_D.type = "Hidden";
+                Answer("D");
+            });
+            firstTimeD=false;
+        }
     }
 
 
 
 }
 
+function thCompleted() {
+    fetch("https://codecyprus.org/th/api/leaderboard?session="+session+"&sorted&limit=10")
+        .then(res => res.json())
+        .then(json => leaderboard(json))
+}
+
+function leaderboard(json) {
+    //Here I display the leaderboard. Doing it this way the leaderboard is now scalable and can show as many people as you want.
+    document.getElementById("leaderboard").style.display="block";
+    let ranking = document.getElementById("THRanking");
+    let leader= json.leaderboard;
+    for (let i=0; i<10; i++){
+        let row=ranking.insertRow(i+1);//I added +1 here so the headings for the table will be on top instead of the bottom.
+        row.insertCell(0).innerText = leader[i].player;
+        row.insertCell(1).innerText = leader[i].score;
+        row.insertCell(2).innerText = leader[i].completionTime;
+
+    }
+}
+
+
+function skip() {
+    //Hiding the skip button so the user doesnt spam it.
+    let skipButton = document.getElementById("skip");
+    skipButton.type = "Hidden";
+    fetch("https://codecyprus.org/th/api/skip?session="+session)
+        .then(response => response.json())
+        .then(json => scoreAdj(json));
+}
 
 
 function Answer(arg) {
@@ -171,6 +303,10 @@ function Answer(arg) {
 }
 function scoreAdj(json) {
     let scoreAdjust = json.scoreAdjustment;
+    let scoreMessage = json.message;
+    let message = document.getElementById("message");
+    message.innerText = scoreMessage;
+    setTimeout(hideMessage,3000);
     console.log("Score adjustment is: "+ scoreAdjust);
     score += scoreAdjust;
     let scoreDisplay = document.getElementById("score");
@@ -178,6 +314,10 @@ function scoreAdj(json) {
     fetch("https://codecyprus.org/th/api/question?session="+session)
         .then(response => response.json())
         .then(json2 => question(json2));
+}
+function hideMessage() {
+    let message = document.getElementById("message");
+    message.innerText = "";
 }
 
 
