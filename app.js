@@ -31,6 +31,8 @@ function onlist(jsonObj) {
         listName.appendChild(document.createTextNode(th[i].name));
         ch.appendChild(listCheckB);
         ch.appendChild(listName);
+        let br = document.createElement("br");
+        ch.appendChild(br);
     }
 
 

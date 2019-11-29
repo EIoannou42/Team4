@@ -2,35 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Team Rocket</title>
     <script src="app.js"></script>
     <link rel="stylesheet" href="AppCss.css">
 </head>
 <body>
-    <h1>The Treasure Hunt</h1>
+    <h1>Team Rocket</h1>
     <div id="Setup">
         <input type="text"  id="username" placeholder="Enter your username!">
+        <div id="thDiv"></div>
+        <h2>Choose a treasure hunt and save!</h2>
         <input type="button" onclick="save()" value="Save" id="savebutton">
         <input type="button" onclick="debug()" value="Debug" id="debugbutton">
         <br>
         <input type="hidden" onclick="selectTHunt()" value="Start" id="start">
     </div>
 
-    <div id="thDiv"></div>
+
     <div id="qDiv">
         <p id="score"></p>
         <p id="progress"></p>
-        <input type="hidden" id="skip" onclick="skip()">
+
         <p id="qText"></p>
         <input type="hidden" id="textA">
         <input type="hidden" id="submit">
         <input type="hidden" id="boolT">
         <input type="hidden" id="boolF">
         <input type="hidden" id="A">
+        <br>
         <input type="hidden" id="B">
+        <br>
         <input type="hidden" id="C">
+        <br>
         <input type="hidden" id="D">
+        <br>
+        <input type="hidden" id="skip" onclick="skip()">
         <p id="message"></p>
+
 
     </div>
     <div id="leaderboard">
