@@ -10,8 +10,8 @@
     <h1>Team Rocket</h1>
     <div id="Setup">
         <input type="text"  id="username" placeholder="Enter your username!">
-        <div id="thDiv"></div>
         <h2>Choose a treasure hunt and save!</h2>
+        <div id="thDiv"></div>
         <input type="button" onclick="save()" value="Save" id="savebutton">
         <input type="button" onclick="debug()" value="Debug" id="debugbutton">
         <br>
@@ -28,14 +28,16 @@
         <input type="hidden" id="submit">
         <input type="hidden" id="boolT">
         <input type="hidden" id="boolF">
+        <div class="multi">
         <input type="hidden" id="A">
-        <br>
+
         <input type="hidden" id="B">
-        <br>
+
         <input type="hidden" id="C">
-        <br>
+
         <input type="hidden" id="D">
-        <br>
+
+        </div>
         <input type="hidden" id="skip" onclick="skip()">
         <p id="message"></p>
 
