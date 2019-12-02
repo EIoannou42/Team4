@@ -2,33 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Team Rocket</title>
     <script src="app.js"></script>
     <link rel="stylesheet" href="AppCss.css">
 </head>
 <body>
-<div id="Title">Treasure Hunt</div>
+    <h1>Team Rocket</h1>
+    <div id="Setup">
+        <input type="text"  id="username" placeholder="Enter your username!">
+        <h2>Choose a treasure hunt and save!</h2>
+        <div id="thDiv"></div>
+        <input type="button" onclick="save()" value="Save" id="savebutton">
+        <input type="button" onclick="debug()" value="Debug" id="debugbutton">
+        <br>
+        <input type="hidden" onclick="selectTHunt()" value="Start" id="start">
+    </div>
 
 
-    <form class="box">
-        <label>
-            <input type="text" name="name">
-        </label>
-    </form>
+    <div id="qDiv">
+        <p id="score"></p>
+        <p id="progress"></p>
 
-    <br>
+        <p id="qText"></p>
+        <input type="hidden" id="textA">
+        <input type="hidden" id="submit">
+        <input type="hidden" id="boolT">
+        <input type="hidden" id="boolF">
+        <div class="multi">
+        <input type="hidden" id="A">
 
-<div class="start">
-    <button type="button" >START</button>
-</div>
+        <input type="hidden" id="B">
+
+        <input type="hidden" id="C">
+
+        <input type="hidden" id="D">
+
+        </div>
+        <input type="hidden" id="skip" onclick="skip()">
+        <p id="message"></p>
 
 
-    <h2>Team 4</h2>
+    </div>
+    <div id="leaderboard">
+        <table id="THRanking">
+            <tr>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Completion Time</th>
+            </tr>
 
-    <ul class="FirstList">
-        <li>Ioannou Elias</li>
-        <li>Ivanov Alexandar</li>
-        <li>Rahimzadeh Abtin</li>
-    </ul>
+        </table>
+    </div>
+
+
+    <script>
+
+        document.getElementById("leaderboard").style.display="none"; //To hide the leaderboard from the start
+        list();
+
+
+
+
+    </script>
+
+
 </body>
 </html>
