@@ -111,9 +111,15 @@ input[type=button]:hover {
     background: -webkit-linear-gradient(red, darkred);
     color:white;
 }
+
 #score{
     text-align: center;
     text-decoration:underline;
+}
+
+#message{
+    background: -webkit-linear-gradient(red, darkred);
+    color:white;
 }
 
 /**********************************************************************************************************************/
