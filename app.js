@@ -103,11 +103,14 @@ function debug() {
 function start(json) {
     session = json.session;
     console.log("session is: "+session);
-
-    fetch("https://codecyprus.org/th/api/question?session="+session)
-        .then(response => response.json())
-        .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
-
+    if(typeof session === 'undefined') {
+        alert("Error:\nThe username you have selected is already in use.\nOR\nThe treasure hunt you have selected is unavailable!");
+        window.location.reload(true);
+    }else {
+        fetch("https://codecyprus.org/th/api/question?session=" + session)
+            .then(response => response.json())
+            .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
+    }
 }
 let firstTimeInt = true;
 let firstTimeBT = true;
@@ -177,7 +180,7 @@ function question(json2) {
 
         if(firstTimeInt) {
             textSubmit.addEventListener('click', function () {
-                textSubmit.type = "Hidden";
+
                 Answer(textAnswer.value);
             });
             firstTimeInt=false;
@@ -296,11 +299,14 @@ function skip() {
 
 
 function Answer(arg) {
-
-    fetch("https://codecyprus.org/th/api/answer?session="+session+"&answer="+arg)
-        .then(response => response.json())
-        .then(json => scoreAdj(json));
-
+    arg=arg.trim();
+    if(arg === '' || arg === null){
+        alert("Make sure you enter an answer!")
+    }else {
+        fetch("https://codecyprus.org/th/api/answer?session=" + session + "&answer=" + arg)
+            .then(response => response.json())
+            .then(json => scoreAdj(json));
+    }
 
 }
 function scoreAdj(json) {
