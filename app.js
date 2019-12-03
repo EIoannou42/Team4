@@ -6,13 +6,23 @@ function list() {
     let x = document.cookie;
     console.log(x);
     document.getElementById("username").value = getCookie("username");
+    let sessionCookie =getCookie("SessionCookie");
+    /*fetch("https://codecyprus.org/th/api/question?session="+sessionCookie)
+        .then(res => res.json())
+        .then(json => {
+           let isCompleted = json.completed;
+           if(isCompleted===false){
+               username = getCookie("username");
+               question(json);
+           }
+        });*/
 }
 var username = "";
 var startlink="https://codecyprus.org/th/api/start?player=";
 var session = "";
 var selectTH = 0;
 var THlength = 0;
-var score= 0;
+
 var longitude = 0;
 var latitude = 0;
 function onlist(jsonObj) {
@@ -103,6 +113,7 @@ function debug() {
 function start(json) {
     session = json.session;
     console.log("session is: "+session);
+    setCookie("SessionCookie",session,30);
     if(typeof session === 'undefined') {
         alert("Error:\nThe username you have selected is already in use.\nOR\nThe treasure hunt you have selected is unavailable!");
         window.location.reload(true);
@@ -119,10 +130,16 @@ let firstTimeA = true;
 let firstTimeB = true;
 let firstTimeC = true;
 let firstTimeD = true;
+let firstTimeScore=true;
 function question(json2) {
     document.getElementById("thDiv").style.display="none";
     document.getElementById("Setup").style.display="none";
-
+    //Just displaying the score from the beginning instead of when the user answers once.
+    if(firstTimeScore) {
+        let scoreDisplay = document.getElementById("score");
+        scoreDisplay.innerText = "Score: 0";
+        firstTimeScore = false;
+    }
     let currentQuestion = json2.questionText;
     let qType = json2.questionType;
     let canbeSkipped = json2.canBeSkipped;
@@ -285,6 +302,13 @@ function leaderboard(json) {
         row.insertCell(2).innerText = leader[i].completionTime;
 
     }
+    fetch("https://codecyprus.org/th/api/score?session="+session)
+        .then(res => res.json())
+        .then(jsonObj => {
+            let ServerScore = jsonObj.score;
+            let finalscore = document.getElementById("finalScore");
+            finalscore.innerText = "Congratulations! \nYou completed the treasure hunt\nYour Final score is: "+ServerScore;
+        });
 }
 
 
@@ -310,15 +334,22 @@ function Answer(arg) {
 
 }
 function scoreAdj(json) {
-    let scoreAdjust = json.scoreAdjustment;
+
     let scoreMessage = json.message;
     let message = document.getElementById("message");
     message.innerText = scoreMessage;
     setTimeout(hideMessage,3000);
-    console.log("Score adjustment is: "+ scoreAdjust);
-    score += scoreAdjust;
-    let scoreDisplay = document.getElementById("score");
-    scoreDisplay.innerText = "Score: "+score;
+
+    fetch("https://codecyprus.org/th/api/score?session="+session)
+        .then(res => res.json())
+        .then(jsonObj => {
+            let ServerScore = jsonObj.score;
+            let scoreDisplay = document.getElementById("score");
+            scoreDisplay.innerText = "Score: "+ServerScore;
+        });
+
+
+
     fetch("https://codecyprus.org/th/api/question?session="+session)
         .then(response => response.json())
         .then(json2 => question(json2));
