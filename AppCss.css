@@ -154,6 +154,7 @@ input[type=button]:hover {
 }
 #loaderText{
     display:none;
+    font-size: 42px;
 }
 /**********************************************************************************************************************/
 
@@ -205,7 +206,7 @@ ul{
     margin-right: 240px;
 }
 p{
-    font-size:42px;
+    /*font-size:42px;*/
     margin-bottom:55px;
     text-align:center;
 }
