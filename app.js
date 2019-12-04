@@ -36,6 +36,7 @@ function onlist(jsonObj) {
         let br = document.createElement("br");
         ch.appendChild(br);
     }
+    document.getElementById("checkbox0").checked = true;
     fetch("https://codecyprus.org/th/api/question?session=" + session)
         .then(res => res.json())
         .then(json => {
@@ -107,10 +108,7 @@ function setCookie(cookieName, cookieValue, expireDays) {
     let expires = "expires=" + date.toUTCString();
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
-function debug() {
-    console.log("TH: "+selectTH);
 
-}
 
 function start(json) {
     session = json.session;
