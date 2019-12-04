@@ -132,6 +132,7 @@ let firstTimeC = true;
 let firstTimeD = true;
 let firstTimeScore=true;
 function question(json2) {
+    document.getElementById("textA").value = "";
     document.getElementById("thDiv").style.display="none";
     document.getElementById("Setup").style.display="none";
     //Just displaying the score from the beginning instead of when the user answers once.
@@ -185,6 +186,8 @@ function question(json2) {
     //Check if the user finished his treasure hunt.
     if(completedTH){
         document.getElementById("qDiv").style.display="none";
+        document.getElementById("loaderText").style.display = "block";
+        document.getElementById("loader").style.display = "block";
         thCompleted();
     }
     //Based on question type we display different things
@@ -292,6 +295,7 @@ function thCompleted() {
 
 function leaderboard(json) {
     //Here I display the leaderboard. Doing it this way the leaderboard is now scalable and can show as many people as you want.
+
     document.getElementById("leaderboard").style.display="block";
     let ranking = document.getElementById("THRanking");
     let leader= json.leaderboard;
@@ -305,6 +309,8 @@ function leaderboard(json) {
     fetch("https://codecyprus.org/th/api/score?session="+session)
         .then(res => res.json())
         .then(jsonObj => {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("loaderText").style.display = "none";
             let ServerScore = jsonObj.score;
             let finalscore = document.getElementById("finalScore");
             finalscore.innerText = "Congratulations! \nYou completed the treasure hunt\nYour Final score is: "+ServerScore;

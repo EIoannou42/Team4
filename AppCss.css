@@ -136,7 +136,7 @@ input[type=button]:hover {
     float:left;
 }
 
-.loader {
+#loader {
     border: 16px solid #9b9b9b;
     border-top: 16px solid red;
     border-radius: 50%;
@@ -145,11 +145,15 @@ input[type=button]:hover {
     animation: spin 2s linear infinite;
     margin-left: 43%;
     margin-top: 50%;
+    display:none;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+#loaderText{
+    display:none;
 }
 /**********************************************************************************************************************/
 
@@ -198,6 +202,7 @@ input[type=button]:hover {
 ul{
     font-size:30px;
     color:white;
+    margin-right: 240px;
 }
 p{
     font-size:42px;
@@ -212,14 +217,14 @@ p{
 }
 /********************Pictures********************/
 #twitter{
-    margin-left:80%;
+    margin-left:87%;
     margin-top:-15%;
     width:100px;
     position:absolute;
 
 }
 #facebook{
-    margin-left:65%;
+    margin-left:75%;
     margin-top:-17%;
     width:125px;
     position:absolute;
