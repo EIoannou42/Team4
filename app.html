@@ -6,7 +6,7 @@
     <script src="app.js"></script>
     <link rel="stylesheet" href="AppCss.css">
 </head>
-<body>
+<div>
     <h1>Team Rocket</h1>
     <div id="Setup">
         <input type="text"  id="username" placeholder="Enter your username!">
@@ -20,14 +20,13 @@
 
 
     <div id="qDiv">
-        <p id="score"></p>
-        <p id="progress"></p>
 
+        <p id="progress"></p>
         <p id="qText"></p>
         <input type="hidden" id="textA">
         <input type="hidden" id="submit">
-        <input type="hidden" id="boolT">
         <input type="hidden" id="boolF">
+        <input type="hidden" id="boolT">
         <div class="multi">
         <input type="hidden" id="A">
 
@@ -39,10 +38,14 @@
 
         </div>
         <input type="hidden" id="skip" onclick="skip()">
+        <p id="score"></p>
         <p id="message"></p>
 
 
     </div>
+
+    <div  class ="loader"></div>
+    <p class="loaderText">Loading Leaderboard...</p>
     <div id="leaderboard">
         <p id="finalScore"></p>
         <table id="THRanking">

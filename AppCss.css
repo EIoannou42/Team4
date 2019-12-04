@@ -30,7 +30,7 @@ h1{
 }
 h2{
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
 }
 hr{
     background: -webkit-linear-gradient(red, darkred);
@@ -50,7 +50,7 @@ input[type=text], select {
     border: 1px solid #75696c;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size:40px;
+    font-size:45px;
 }
 
 input[type=button] {
@@ -77,15 +77,23 @@ input[type=button]:hover {
     margin-left:215px;
 }
 #skip{
-    margin-left:420px;
+    margin-left:45%;
     margin-top: 50px;
+}
+#boolF{
+
+    margin-left: 38%;
+}
+#boolT{
+    padding-left:10px;
+    padding-right:10px;
 }
 /**********************************************************************************************************************/
 
 
 /*************************************************Checkboxes***********************************************************/
 #thDiv, #qDiv{
-    font-size:35px;
+    font-size:45px;
     margin-top:90px;
 }
 #checkbox0{
@@ -114,14 +122,35 @@ input[type=button]:hover {
 
 #score{
     text-align: center;
-    text-decoration:underline;
-}
-
-#message{
     background: -webkit-linear-gradient(red, darkred);
     color:white;
 }
 
+#message{
+    color: red;
+    font-weight: bolder;
+}
+
+.multi{
+    margin-left: 35%;
+    float:left;
+}
+
+.loader {
+    border: 16px solid #9b9b9b;
+    border-top: 16px solid red;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin-left: 43%;
+    margin-top: 50%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 /**********************************************************************************************************************/
 
 
@@ -171,7 +200,7 @@ ul{
     color:white;
 }
 p{
-    font-size:100%;
+    font-size:42px;
     margin-bottom:55px;
     text-align:center;
 }
@@ -184,10 +213,16 @@ p{
 /********************Pictures********************/
 #twitter{
     margin-left:80%;
-    margin-top:-20%;
+    margin-top:-15%;
     width:100px;
     position:absolute;
 
+}
+#facebook{
+    margin-left:65%;
+    margin-top:-17%;
+    width:125px;
+    position:absolute;
 }
 #android{
     margin-left:38%;
@@ -201,12 +236,5 @@ p{
 /*************************************************/
 /**********************************************************************************************************************/
 
-#boolT{
 
-    margin-left: 38%;
-}
 
-.multi{
-    margin-left: 35%;
-    float:left;
-}
