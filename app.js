@@ -29,6 +29,7 @@ function onlist(jsonObj) {
         listCheckB.name = "list";
         listCheckB.value = th[i].name;
         listCheckB.id = "checkbox"+i;
+        listCheckB.className = "Check";
         listName.htmlFor = "label"+i;
         listName.appendChild(document.createTextNode(th[i].name));
         ch.appendChild(listCheckB);
@@ -52,6 +53,7 @@ function resume(json) {
 }
 function selectTHunt() {//The user calls this function when he wants to start the game. This tells us which treasure hunt the user selected.
     //Therefore allowing us to get the correct ID for the specific hunt the user wants to play.
+    play();
     document.getElementById("start").type = "Hidden";
     for (let c=0; c<THlength; c++){
         let checkbox = document.getElementById("checkbox"+c);
@@ -94,6 +96,7 @@ function sendPosition(position) {
 }
 
 function save() {
+    play();
     let usern = document.getElementById("username").value;
     setCookie("username", usern, 30);
     console.log(document.cookie);
@@ -329,6 +332,7 @@ function leaderboard(json) {
 
 function skip() {
     //Hiding the skip button so the user doesnt spam it.
+    play();
     let skipButton = document.getElementById("skip");
     skipButton.type = "Hidden";
     fetch("https://codecyprus.org/th/api/skip?session="+session)
@@ -391,4 +395,9 @@ function getCookie(cname) {//Code found at W3 Schools that helps us set cookies 
         }
     }
     return "";
+}
+
+function play(){
+    var audio = document.getElementById("audio");
+    audio.play();
 }

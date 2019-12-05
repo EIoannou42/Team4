@@ -96,11 +96,7 @@ input[type=button]:hover {
     font-size:45px;
     margin-top:90px;
 }
-#checkbox0{
-    height:35px;
-    width:35px;
-}
-#checkbox1{
+.Check{
     height:35px;
     width:35px;
 }

@@ -24,17 +24,17 @@
         <p id="progress"></p>
         <p id="qText"></p>
         <input type="hidden" id="textA">
-        <input type="hidden" id="submit">
-        <input type="hidden" id="boolF">
-        <input type="hidden" id="boolT">
+        <input type="hidden" id="submit" onclick="play()">
+        <input type="hidden" id="boolF" onclick="play()">
+        <input type="hidden" id="boolT" onclick="play()">
         <div class="multi">
-        <input type="hidden" id="A">
+        <input type="hidden" id="A" onclick="play()">
 
-        <input type="hidden" id="B">
+        <input type="hidden" id="B" onclick="play()">
 
-        <input type="hidden" id="C">
+        <input type="hidden" id="C" onclick="play()">
 
-        <input type="hidden" id="D">
+        <input type="hidden" id="D" onclick="play()">
 
         </div>
         <input type="hidden" id="skip" onclick="skip()">
@@ -58,7 +58,7 @@
         </table>
     </div>
 
-
+    <audio id="audio" src="Images/Click-Sound.mp3" ></audio>
     <script>
 
         document.getElementById("leaderboard").style.display="none"; //To hide the leaderboard from the start

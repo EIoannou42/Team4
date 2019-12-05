@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Team Rocket</title>
+    <script src="app.js"></script>
     <link rel="stylesheet" href="AppCss.css">
     <meta name="description" content="Treasure Hunt">
     <meta name="author" content="Elias Ioannou">
@@ -19,7 +20,7 @@
     <p>Find the answer to every question!!</p>
     <p>But dont forget, you need to be at the right place in some situations!!</p>
 
-    <input type="button" onclick="window.location.href='app.html';" value="Start Quiz" id="HomeStart">
+    <input type="button" onclick="play(); window.location.href='app.html';" value="Start Quiz" id="HomeStart">
     <img src="Images/treasure.png" alt="A treasure chest" id="treasure">
 
         <div id="devteam">
@@ -32,5 +33,6 @@
         </div>
         <a href="twitter.placeholder"><img src="Images/twitter-logo.png" alt="twitter icon" id="twitter"></a>
     <a href="facebook.placeholder"><img src="Images/Facebook-logo.png" alt="facebook icon" id="facebook"></a>
+    <audio id="audio" src="Images/Click-Sound.mp3" ></audio>
 </body>
 </html>
