@@ -10,12 +10,15 @@
     <h1>Team Rocket</h1>
     <div id="Setup">
         <input type="text"  id="username" placeholder="Enter your username!">
-        <h2>Choose a treasure hunt and save!</h2>
+        <h2>Choose a treasure hunt!<br>Click save if you want us to remember your username!</h2>
         <div id="thDiv"></div>
-        <input type="button" onclick="save()" value="Save" id="savebutton">
+
 
         <br>
-        <input type="hidden" onclick="selectTHunt()" value="Start" id="start">
+        <input type="button" onclick="selectTHunt()" value="Start" id="start">
+        <form action="index.html">
+            <input type="submit" value="Go to Home" id="goHomeSetup">
+        </form>
     </div>
 
 
@@ -54,8 +57,14 @@
                 <th>Score</th>
                 <th>Completion Time</th>
             </tr>
-
         </table>
+        <form action="index.html">
+            <input type="submit" value="Go to Home" id="goHome">
+        </form>
+        <form action="app.html">
+            <input type="submit" value="Play Again" id="playAgain">
+        </form>
+
     </div>
 
     <audio id="audio" src="Images/Click-Sound.mp3" ></audio>

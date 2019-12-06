@@ -44,9 +44,14 @@ function onlist(jsonObj) {
             let isCompleted = json.completed;
             if (isCompleted === false) {
                 username = getCookie("username");
-                resume(json);
+                if (confirm("A game in progress was detected. Press OK to continue, or cancel to start a new game.")) {
+                    resume(json);
+                }else{
+                    setCookie("score", 0, 30);
+                }
             }
         });
+
 }
 function resume(json) {
     question(json);
@@ -62,6 +67,11 @@ function selectTHunt() {//The user calls this function when he wants to start th
 
         }
     }
+
+    let usern = document.getElementById("username").value;
+    setCookie("username", usern, 30);
+    console.log(document.cookie);
+    username = getCookie("username");//We reset
     fetch("https://codecyprus.org/th/api/list")
         .then(res => res.json())
         .then(json => {
@@ -95,16 +105,7 @@ function sendPosition(position) {
 
 }
 
-function save() {
-    play();
-    let usern = document.getElementById("username").value;
-    setCookie("username", usern, 30);
-    console.log(document.cookie);
-    username = getCookie("username");//We reset
-    let showStart = document.getElementById("start");
-    showStart.type = "button";
-    //window.location.reload(true);
-}
+
 function setCookie(cookieName, cookieValue, expireDays) {
     let date = new Date();
     date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
@@ -114,12 +115,14 @@ function setCookie(cookieName, cookieValue, expireDays) {
 
 
 function start(json) {
+
+
     session = json.session;
     console.log("session is: "+session);
     setCookie("SessionCookie",session,30);
     if(typeof session === 'undefined') {
         alert("Error:\nThe username you have selected is already in use.\nOR\nThe treasure hunt you have selected is unavailable!");
-        window.location.reload(true);
+
     }else {
         fetch("https://codecyprus.org/th/api/question?session=" + session)
             .then(response => response.json())
@@ -167,6 +170,7 @@ function question(json2) {
     }
 
     console.log("qType: " + qType); //debug
+    //Here we update the location if the question is location sensitive.
     let isLocationSensitive = json2.requiresLocation;
     if(isLocationSensitive){
         getLocation();
@@ -208,6 +212,7 @@ function question(json2) {
         //Button that will check if the question is wrong or not.
         textSubmit.type = "button";
 
+
         if(firstTimeInt) {
             textSubmit.addEventListener('click', function () {
 
@@ -217,7 +222,8 @@ function question(json2) {
         }
         textSubmit.value = "Submit";
 
-    }else if(qType === "BOOLEAN"){
+    }
+    else if(qType === "BOOLEAN"){
         //Display this when we need to input true or false answers
         boolAnswerT.type = "button";
         boolAnswerT.value = "True";
@@ -309,11 +315,18 @@ function leaderboard(json) {
     document.getElementById("leaderboard").style.display="block";
     let ranking = document.getElementById("THRanking");
     let leader= json.leaderboard;
+
+
     for (let i=0; i<limit; i++){
         let row=ranking.insertRow(i+1);//I added +1 here so the headings for the table will be on top instead of the bottom.
         row.insertCell(0).innerText = leader[i].player;
         row.insertCell(1).innerText = leader[i].score;
-        row.insertCell(2).innerText = leader[i].completionTime;
+        let date = new Date(leader[i].completionTime*1000);
+        let hours = date.getHours();
+        let minutes = "0" + date.getMinutes();
+        let seconds = "0" + date.getSeconds();
+        let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        row.insertCell(2).innerText = formattedTime;
 
     }
     fetch("https://codecyprus.org/th/api/score?session="+session)
