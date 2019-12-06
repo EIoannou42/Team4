@@ -59,7 +59,7 @@ function resume(json) {
 function selectTHunt() {//The user calls this function when he wants to start the game. This tells us which treasure hunt the user selected.
     //Therefore allowing us to get the correct ID for the specific hunt the user wants to play.
     play();
-    document.getElementById("start").type = "Hidden";
+
     for (let c=0; c<THlength; c++){
         let checkbox = document.getElementById("checkbox"+c);
         if (checkbox.checked === true){

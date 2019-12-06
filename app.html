@@ -10,14 +10,14 @@
     <h1>Team Rocket</h1>
     <div id="Setup">
         <input type="text"  id="username" placeholder="Enter your username!">
-        <h2>Choose a treasure hunt!<br>Click save if you want us to remember your username!</h2>
+        <h2>Choose a treasure hunt!<br>Then press start to begin your quiz!</h2>
         <div id="thDiv"></div>
 
 
         <br>
         <input type="button" onclick="selectTHunt()" value="Start" id="start">
         <form action="index.html">
-            <input type="submit" value="Go to Home" id="goHomeSetup">
+            <input type="submit" value="Go to Home" id="goHomeSetup" onclick="play()">
         </form>
     </div>
 
@@ -59,10 +59,10 @@
             </tr>
         </table>
         <form action="index.html">
-            <input type="submit" value="Go to Home" id="goHome">
+            <input type="submit" value="Go to Home" id="goHome" onclick="play()">
         </form>
         <form action="app.html">
-            <input type="submit" value="Play Again" id="playAgain">
+            <input type="submit" value="Play Again" id="playAgain" onclick="play()">
         </form>
 
     </div>
