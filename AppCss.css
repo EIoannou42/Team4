@@ -30,7 +30,7 @@ h1{
 }
 h2{
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
 }
 hr{
     background: -webkit-linear-gradient(red, darkred);
@@ -50,7 +50,7 @@ input[type=text], select {
     border: 1px solid #75696c;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size:40px;
+    font-size:45px;
 }
 
 input[type=button] {
@@ -68,7 +68,7 @@ input[type=button]:hover {
 }
 #savebutton{
     margin-top: 90px;
-    margin-left:37%;
+    margin-left:45%;
 }
 #start{
     margin-top: 90px;
@@ -77,22 +77,26 @@ input[type=button]:hover {
     margin-left:215px;
 }
 #skip{
-    margin-left:420px;
+    margin-left:45%;
     margin-top: 50px;
+}
+#boolF{
+
+    margin-left: 38%;
+}
+#boolT{
+    padding-left:10px;
+    padding-right:10px;
 }
 /**********************************************************************************************************************/
 
 
 /*************************************************Checkboxes***********************************************************/
 #thDiv, #qDiv{
-    font-size:35px;
+    font-size:45px;
     margin-top:90px;
 }
-#checkbox0{
-    height:35px;
-    width:35px;
-}
-#checkbox1{
+.Check{
     height:35px;
     width:35px;
 }
@@ -111,11 +115,43 @@ input[type=button]:hover {
     background: -webkit-linear-gradient(red, darkred);
     color:white;
 }
+
 #score{
     text-align: center;
-    text-decoration:underline;
+    background: -webkit-linear-gradient(red, darkred);
+    color:white;
 }
 
+#message{
+    color: red;
+    font-weight: bolder;
+}
+
+.multi{
+    margin-left: 35%;
+    float:left;
+}
+
+#loader {
+    border: 16px solid #9b9b9b;
+    border-top: 16px solid red;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin-left: 43%;
+    margin-top: 50%;
+    display:none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#loaderText{
+    display:none;
+    font-size: 42px;
+}
 /**********************************************************************************************************************/
 
 
@@ -163,9 +199,10 @@ input[type=button]:hover {
 ul{
     font-size:30px;
     color:white;
+    margin-right: 240px;
 }
 p{
-    font-size:100%;
+    /*font-size:42px;*/
     margin-bottom:55px;
     text-align:center;
 }
@@ -177,11 +214,17 @@ p{
 }
 /********************Pictures********************/
 #twitter{
-    margin-left:80%;
-    margin-top:-20%;
+    margin-left:87%;
+    margin-top:-15%;
     width:100px;
     position:absolute;
 
+}
+#facebook{
+    margin-left:75%;
+    margin-top:-17%;
+    width:125px;
+    position:absolute;
 }
 #android{
     margin-left:38%;
@@ -195,12 +238,5 @@ p{
 /*************************************************/
 /**********************************************************************************************************************/
 
-#boolT{
 
-    margin-left: 38%;
-}
 
-.multi{
-    margin-left: 35%;
-    float:left;
-}

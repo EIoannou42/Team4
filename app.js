@@ -6,13 +6,15 @@ function list() {
     let x = document.cookie;
     console.log(x);
     document.getElementById("username").value = getCookie("username");
+    session = getCookie("SessionCookie");
+
 }
 var username = "";
 var startlink="https://codecyprus.org/th/api/start?player=";
 var session = "";
 var selectTH = 0;
 var THlength = 0;
-var score= 0;
+
 var longitude = 0;
 var latitude = 0;
 function onlist(jsonObj) {
@@ -27,6 +29,7 @@ function onlist(jsonObj) {
         listCheckB.name = "list";
         listCheckB.value = th[i].name;
         listCheckB.id = "checkbox"+i;
+        listCheckB.className = "Check";
         listName.htmlFor = "label"+i;
         listName.appendChild(document.createTextNode(th[i].name));
         ch.appendChild(listCheckB);
@@ -34,11 +37,28 @@ function onlist(jsonObj) {
         let br = document.createElement("br");
         ch.appendChild(br);
     }
+    document.getElementById("checkbox0").checked = true;
+    fetch("https://codecyprus.org/th/api/question?session=" + session)
+        .then(res => res.json())
+        .then(json => {
+            let isCompleted = json.completed;
+            if (isCompleted === false) {
+                username = getCookie("username");
+                if (confirm("A game in progress was detected. Press OK to continue, or cancel to start a new game.")) {
+                    resume(json);
+                }else{
+                    setCookie("score", 0, 30);
+                }
+            }
+        });
 
-
+}
+function resume(json) {
+    question(json);
 }
 function selectTHunt() {//The user calls this function when he wants to start the game. This tells us which treasure hunt the user selected.
     //Therefore allowing us to get the correct ID for the specific hunt the user wants to play.
+    play();
     document.getElementById("start").type = "Hidden";
     for (let c=0; c<THlength; c++){
         let checkbox = document.getElementById("checkbox"+c);
@@ -47,6 +67,11 @@ function selectTHunt() {//The user calls this function when he wants to start th
 
         }
     }
+
+    let usern = document.getElementById("username").value;
+    setCookie("username", usern, 30);
+    console.log(document.cookie);
+    username = getCookie("username");//We reset
     fetch("https://codecyprus.org/th/api/list")
         .then(res => res.json())
         .then(json => {
@@ -59,7 +84,7 @@ function selectTHunt() {//The user calls this function when he wants to start th
 
 }
 getLocation(); //We call it once and then every 32 seconds.
-setInterval(getLocation, 32000);
+setInterval(getLocation, 60000);
 function getLocation() {
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(sendPosition);
@@ -80,34 +105,29 @@ function sendPosition(position) {
 
 }
 
-function save() {
-    let usern = document.getElementById("username").value;
-    setCookie("username", usern, 30);
-    console.log(document.cookie);
-    username = getCookie("username");//We reset
-    let showStart = document.getElementById("start");
-    showStart.type = "button";
-    //window.location.reload(true);
-}
+
 function setCookie(cookieName, cookieValue, expireDays) {
     let date = new Date();
     date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
     let expires = "expires=" + date.toUTCString();
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
-function debug() {
-    console.log("TH: "+selectTH);
 
-}
 
 function start(json) {
+
+
     session = json.session;
     console.log("session is: "+session);
+    setCookie("SessionCookie",session,30);
+    if(typeof session === 'undefined') {
+        alert("Error:\nThe username you have selected is already in use.\nOR\nThe treasure hunt you have selected is unavailable!");
 
-    fetch("https://codecyprus.org/th/api/question?session="+session)
-        .then(response => response.json())
-        .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
-
+    }else {
+        fetch("https://codecyprus.org/th/api/question?session=" + session)
+            .then(response => response.json())
+            .then(json2 => question(json2)); //Just changing the names even tho it doesnt matter to differentiate them
+    }
 }
 let firstTimeInt = true;
 let firstTimeBT = true;
@@ -116,12 +136,23 @@ let firstTimeA = true;
 let firstTimeB = true;
 let firstTimeC = true;
 let firstTimeD = true;
+
+let score = 0;
 function question(json2) {
+    document.getElementById("textA").value = "";
     document.getElementById("thDiv").style.display="none";
     document.getElementById("Setup").style.display="none";
 
+
+    score = getCookie("score");
+    let scoreDisplay = document.getElementById("score");
+    scoreDisplay.innerText = "Score: " + score;
+
+
+
     let currentQuestion = json2.questionText;
     let qType = json2.questionType;
+
     let canbeSkipped = json2.canBeSkipped;
     let completedTH = json2.completed;
     //Progress bar initializes here
@@ -132,14 +163,18 @@ function question(json2) {
 
     //Skip button appears if question can be skipped
     let skipButton = document.getElementById("skip");
+    skipButton.type = "hidden";
     if(canbeSkipped){
         skipButton.type = "button";
         skipButton.value = "Skip";
     }
 
-    console.log("qType: " + qType);//debug
-
-
+    console.log("qType: " + qType); //debug
+    //Here we update the location if the question is location sensitive.
+    let isLocationSensitive = json2.requiresLocation;
+    if(isLocationSensitive){
+        getLocation();
+    }
     //Question text displayed here
     let qText = document.getElementById("qText");
     qText.innerHTML = currentQuestion;
@@ -165,6 +200,8 @@ function question(json2) {
     //Check if the user finished his treasure hunt.
     if(completedTH){
         document.getElementById("qDiv").style.display="none";
+        document.getElementById("loaderText").style.display = "block";
+        document.getElementById("loader").style.display = "block";
         thCompleted();
     }
     //Based on question type we display different things
@@ -175,16 +212,18 @@ function question(json2) {
         //Button that will check if the question is wrong or not.
         textSubmit.type = "button";
 
+
         if(firstTimeInt) {
             textSubmit.addEventListener('click', function () {
-                textSubmit.type = "Hidden";
+
                 Answer(textAnswer.value);
             });
             firstTimeInt=false;
         }
         textSubmit.value = "Submit";
 
-    }else if(qType === "BOOLEAN"){
+    }
+    else if(qType === "BOOLEAN"){
         //Display this when we need to input true or false answers
         boolAnswerT.type = "button";
         boolAnswerT.value = "True";
@@ -263,30 +302,50 @@ function question(json2) {
 
 
 }
-
+let limit =10;
 function thCompleted() {
-    fetch("https://codecyprus.org/th/api/leaderboard?session="+session+"&sorted&limit=10")
+    fetch("https://codecyprus.org/th/api/leaderboard?session="+session+"&sorted&limit="+limit)
         .then(res => res.json())
         .then(json => leaderboard(json))
 }
 
 function leaderboard(json) {
     //Here I display the leaderboard. Doing it this way the leaderboard is now scalable and can show as many people as you want.
+
     document.getElementById("leaderboard").style.display="block";
     let ranking = document.getElementById("THRanking");
     let leader= json.leaderboard;
-    for (let i=0; i<10; i++){
+
+
+    for (let i=0; i<limit; i++){
         let row=ranking.insertRow(i+1);//I added +1 here so the headings for the table will be on top instead of the bottom.
         row.insertCell(0).innerText = leader[i].player;
         row.insertCell(1).innerText = leader[i].score;
-        row.insertCell(2).innerText = leader[i].completionTime;
+        let date = new Date(leader[i].completionTime*1000);
+        let hours = date.getHours();
+        let minutes = "0" + date.getMinutes();
+        let seconds = "0" + date.getSeconds();
+        let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        row.insertCell(2).innerText = formattedTime;
 
     }
+    fetch("https://codecyprus.org/th/api/score?session="+session)
+        .then(res => res.json())
+        .then(jsonObj => {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("loaderText").style.display = "none";
+            let ServerScore = jsonObj.score;
+            let finalscore = document.getElementById("finalScore");
+            finalscore.innerText = "Congratulations! \nYou completed the treasure hunt\nYour Final score is: "+ServerScore;
+        });
+    //Resets the score once the user finishes
+    setCookie("score", 0, 30);
 }
 
 
 function skip() {
     //Hiding the skip button so the user doesnt spam it.
+    play();
     let skipButton = document.getElementById("skip");
     skipButton.type = "Hidden";
     fetch("https://codecyprus.org/th/api/skip?session="+session)
@@ -296,23 +355,33 @@ function skip() {
 
 
 function Answer(arg) {
-
-    fetch("https://codecyprus.org/th/api/answer?session="+session+"&answer="+arg)
-        .then(response => response.json())
-        .then(json => scoreAdj(json));
-
+    arg=arg.trim();
+    if(arg === '' || arg === null){
+        alert("Make sure you enter an answer!")
+    }else {
+        fetch("https://codecyprus.org/th/api/answer?session=" + session + "&answer=" + arg)
+            .then(response => response.json())
+            .then(json => scoreAdj(json));
+    }
 
 }
 function scoreAdj(json) {
-    let scoreAdjust = json.scoreAdjustment;
+
     let scoreMessage = json.message;
     let message = document.getElementById("message");
     message.innerText = scoreMessage;
-    setTimeout(hideMessage,3000);
-    console.log("Score adjustment is: "+ scoreAdjust);
-    score += scoreAdjust;
-    let scoreDisplay = document.getElementById("score");
-    scoreDisplay.innerText = "Score: "+score;
+    setTimeout(hideMessage,6000);
+
+    fetch("https://codecyprus.org/th/api/score?session="+session)
+        .then(res => res.json())
+        .then(jsonObj => {
+            let ServerScore = jsonObj.score;
+            setCookie("score",ServerScore,30);
+
+        });
+
+
+
     fetch("https://codecyprus.org/th/api/question?session="+session)
         .then(response => response.json())
         .then(json2 => question(json2));
@@ -339,4 +408,9 @@ function getCookie(cname) {//Code found at W3 Schools that helps us set cookies 
         }
     }
     return "";
+}
+
+function play(){
+    var audio = document.getElementById("audio");
+    audio.play();
 }
