@@ -55,23 +55,28 @@
         <li>The leaderboard shows all top scores for the user to see.</li>
     </ul>
 
+    <h2 class="TestingTitles">Unit Testing</h2>
+    <ul class="UnitTest">
+    <li><h3>List Display test</h3>
+        <input class ="testButtons" type="button" onclick="testList()" value="Test List"/>
 
-
-    <input type="button" onclick="window.location.href='index.html';" value="Back to Home Page" class = "BackHome">
-    </p>
-<input type="button" onclick="testList()" value="Test List"/>
-    <div id="testList"></div>
-    <input type="button" onclick="testLeader()" value="Test Leaderboard"/>
-    <div id="testLeader">
-        <table id="TestTable">
-            <tr>
-                <th>Username</th>
-                <th>Score</th>
-                <th>Completion Time</th>
-            </tr>
-        </table>
-    </div>
-    <input type="button" onclick="window.location.reload()" value="Clear Results"/>
+        <div id="testList"></div>
+    </li>
+        <li><h3>Leaderboard Display test</h3>
+            <input class ="testButtons" type="button" onclick="testLeader()" value="Test Leaderboard"/>
+            <div id="testLeader">
+                <table id="TestTable">
+                    <tr>
+                        <th>Username</th>
+                        <th>Score</th>
+                        <th>Completion Time</th>
+                    </tr>
+                </table>
+            </div>
+        </li>
+    </ul>
+    <input id="ClearButton" class ="testButtons" type="button" onclick="window.location.reload()" value="Clear Results"/>
+    <br>
 
 
     <input type="button" onclick="window.location.href='index.html';" value="Back to Home Page" class = "BackHome">

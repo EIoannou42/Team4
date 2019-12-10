@@ -273,6 +273,27 @@ h3{
 .Heuristics{
     text-decoration: underline;
 }
+.testButtons{
+    margin-bottom: 50px;
+
+}
+.CheckTest{
+    font-size:30px;
+}
+#testLeader{
+    font-size:30px;
+    margin-bottom: 40px;
+}
+#testList{
+    font-size:30px;
+    margin-bottom: 40px;
+}
+.UnitTest{
+    color:black;
+}
+#ClearButton{
+    margin-left: 35%;
+}
 
 /**********************************************************************************************************************/
 

@@ -20,7 +20,7 @@ function testList() {
                     listCheckB.name = "list";
                     listCheckB.value = th[i].name;
                     listCheckB.id = "checkbox"+i;
-                    listCheckB.className = "Check";
+                    listCheckB.className = "CheckTest";
                     listName.htmlFor = "label"+i;
                     listName.appendChild(document.createTextNode(th[i].name));
                     ch.appendChild(listCheckB);
