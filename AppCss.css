@@ -254,6 +254,26 @@ p{
 }
 
 /*************************************************/
+
+
+/****************Testing Page*********************/
+.UserAcceptance{
+    color:black;
+}
+li{
+    margin-bottom:30px;
+}
+h3{
+    text-decoration: underline;
+}
+.TestingTitles{
+    color:red;
+    font-weight: bold;
+}
+.Heuristics{
+    text-decoration: underline;
+}
+
 /**********************************************************************************************************************/
 
 
